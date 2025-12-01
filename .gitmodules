@@ -1,0 +1,15 @@
+[submodule "submodules/desktop-tutorial"]
+	path = submodules/desktop-tutorial
+	url = https://github.com/cashmoneycolors/Desktop-Tutorial.git
+[submodule "submodules/autonomous-zenith-optimizer"]
+	path = submodules/autonomous-zenith-optimizer
+	url = https://github.com/cashmoneycolors/AutonomousZenithOptimizer.git
+[submodule "submodules/blank-app"]
+	path = submodules/blank-app
+	url = https://github.com/cashmoneycolors/blank-app.git
+[submodule "submodules/mega-ultra-roboter-ki"]
+	path = submodules/mega-ultra-roboter-ki
+	url = https://github.com/cashmoneycolors/-MEGA-ULTRA-ROBOTER-KI.git
+[submodule "submodules/necklaptop-folder"]
+	path = submodules/necklaptop-folder
+	url = https://github.com/cashmoneycolors/NeCUsersLaptopDocumentsCCashMoneyIDEKontrollzentrumuer-Ordner.git
