@@ -1,25 +1,5 @@
-import os
-import sys
-import importlib.util
-
-modul_name = "nft_modul"
-modul_pfad = os.path.abspath(os.path.join(os.path.dirname(__file__), "modules", "nft_modul.py"))
-
-projekt_root = os.path.abspath(os.path.dirname(__file__))
-if projekt_root not in sys.path:
-    sys.path.insert(0, projekt_root)
-
-spec = importlib.util.spec_from_file_location(modul_name, modul_pfad)
-modul = importlib.util.module_from_spec(spec)
-spec.loader.exec_module(modul)
-
-if hasattr(modul, "run"):
-    modul.run()
-else:
-    print(f"Das Modul '{modul_name}' hat keine Funktion 'run()'.")
-
+"""Zenith Controller - Self-Correcting System Core"""
 import streamlit as st
-from ..modules import data_import, kpi_dashboard, agent_simulator, trailer_visualization, self_heal, payment, nft_manager, auto_distribute, apikey_manager
 from .zenith_controller_blueprint import ZenithControllerBlueprint
 
 class ZenithController(ZenithControllerBlueprint):
@@ -28,65 +8,65 @@ class ZenithController(ZenithControllerBlueprint):
         self.data = None
 
     def run(self):
-        st.title("Zenith Kontrollzentrum (Self-Correcting System Core)")
+        st.set_page_config(page_title="Zenith Kontrollzentrum", layout="wide")
+        st.title("🎛️ Zenith Kontrollzentrum (Self-Correcting System Core)")
+        
         menu = st.sidebar.radio("Modul wählen:", [
-            "🔄 Echtzeit-Datenimport",
-            "📊 KPI-Visualisierung & Governance",
-            "🧪 Agenten-Simulator",
-            "🎥 Trailer-Visualisierung",
-            "🛡️ Self-Heal & Recovery",
-            "💳 Payment & Lizenz",
-            "🖼️ NFT-Manager",
-            "🚚 Auto-Distribute",
-            "🔑 APIKey-Manager"
+            "📊 Dashboard",
+            "🔄 System Status",
+            "🛡️ Recovery",
+            "🔑 API-Keys",
+            "📝 Logs"
         ])
-        if menu == "🔄 Echtzeit-Datenimport":
-            self.data = data_import.run()
-            self.monitor_performance(0.5)
-            self.audit("Datenimport durchgeführt")
-        elif menu == "📊 KPI-Visualisierung & Governance":
-            kpi_dashboard.run(self.data)
-            self.monitor_performance(0.95)
-            self.enforce_policy("KPI-Grenzwert", False)
-        elif menu == "🧪 Agenten-Simulator":
-            agent_simulator.run(self.data)
-            self.audit("Agenten-Simulation gestartet")
-        elif menu == "🎥 Trailer-Visualisierung":
-            trailer_visualization.run(self.data)
-            self.audit("Trailer-Visualisierung gestartet")
-        elif menu == "🛡️ Self-Heal & Recovery":
-            st.header("🛡️ Self-Heal & Recovery")
-            result = self_heal.show_live_status()
-            self.monitor_performance(result.get('cpu', 0)/100)
-            self.audit("Self-Heal Live-Status angezeigt")
-        elif menu == "💳 Payment & Lizenz":
-            st.header("💳 Payment & Lizenz")
-            # Beispiel: Lizenzprüfung und Stripe-Testzahlung
-            user_id = st.text_input("User-ID für Lizenzprüfung", "user123")
-            if st.button("Lizenz prüfen"):
-                payment.check_license(user_id)
-                self.audit(f"Lizenzprüfung für {user_id}")
-            if st.button("Testzahlung (Stripe)"):
-                payment.process_payment(10.0, method="stripe", email="test@example.com")
-                self.audit("Testzahlung Stripe ausgelöst")
-        elif menu == "🖼️ NFT-Manager":
-            st.header("🖼️ NFT-Manager")
-            st.write("NFT-Erstellung und Listing auf OpenSea (Demo)")
-            if st.button("NFT erstellen (Demo)"):
-                nft_manager.create_nft("bild.png", {"ipfs_url": "ipfs://demo"})
-                self.audit("NFT-Erstellung ausgelöst")
-        elif menu == "🚚 Auto-Distribute":
-            st.header("🚚 Auto-Distribute")
-            st.write("Automatischer Vertrieb von Dateien über eBay/Amazon (Demo)")
-            if st.button("eBay-Upload (Demo)"):
-                auto_distribute.upload_to_ebay("file.exe", "Demo-Titel", "Demo-Beschreibung")
-                self.audit("eBay-Upload ausgelöst")
-        elif menu == "🔑 APIKey-Manager":
-            st.header("🔑 APIKey-Manager")
-            st.write("API-Key-Generierung und -Verwaltung (Demo)")
-            if st.button("API-Key generieren"):
-                apikey_manager.generate_api_key()
-                self.audit("API-Key generiert")
-        if st.sidebar.button("System Recovery auslösen"):
+        
+        if menu == "📊 Dashboard":
+            st.header("📊 Dashboard")
+            st.write("Willkommen im Zenith Kontrollzentrum!")
+            st.info("Alle Module sind über die Sidebar erreichbar.")
+            self.audit("Dashboard angezeigt")
+            
+        elif menu == "🔄 System Status":
+            st.header("🔄 System Status")
+            status = self.get_system_status()
+            st.json(status)
+            self.monitor_performance(status.get('cpu_usage', 0))
+            
+        elif menu == "🛡️ Recovery":
+            st.header("🛡️ System Recovery")
+            if st.button("Recovery starten"):
+                self.recover()
+                st.success("Recovery abgeschlossen!")
+                self.audit("System Recovery ausgelöst")
+                
+        elif menu == "🔑 API-Keys":
+            st.header("🔑 API-Keys Status")
+            from core.key_check import REQUIRED_KEYS
+            import os
+            for key in REQUIRED_KEYS:
+                status = "✅" if os.getenv(key) else "❌"
+                st.write(f"{status} {key}")
+            self.audit("API-Keys Status angezeigt")
+            
+        elif menu == "📝 Logs":
+            st.header("📝 System Logs")
+            st.write("Logs werden hier angezeigt.")
+            self.audit("Logs angezeigt")
+        
+        # Sidebar Recovery Button
+        if st.sidebar.button("🔧 System Recovery"):
             self.recover()
+            st.sidebar.success("Recovery abgeschlossen!")
+        
         super().run()
+
+    def get_system_status(self):
+        """Gibt System-Status zurück"""
+        try:
+            import psutil
+            return {
+                "cpu_usage": psutil.cpu_percent(),
+                "memory_usage": psutil.virtual_memory().percent,
+                "disk_usage": psutil.disk_usage('/').percent
+            }
+        except ImportError:
+            return {"cpu_usage": 0, "memory_usage": 0, "disk_usage": 0}

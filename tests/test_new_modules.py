@@ -11,7 +11,9 @@ if modules_path not in sys.path:
 class TestBeispielModul(unittest.TestCase):
     def test_run(self):
         mod = importlib.import_module('beispiel_modul')
-        self.assertIsNone(mod.run())
+        result = mod.run()
+        self.assertIsInstance(result, dict)
+        self.assertEqual(result['status'], 'success')
 
 class TestWetterModul(unittest.TestCase):
     def test_run(self):
