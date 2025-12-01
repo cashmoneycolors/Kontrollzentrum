@@ -40,7 +40,7 @@ def discover_modules():
             and fname not in ["main.py", "api_server.py"]
         ):
             modules.append(fname[:-3])
-    return modules
+    return sorted(modules)  # Sortiert für konsistente Reihenfolge
 
 
 def get_capabilities(mod):
