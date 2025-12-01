@@ -1,0 +1,323 @@
+<Window x:Class="DropshippingApp.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="🚀 Amazon Dropshipping Pro - AI Powered" Height="950" Width="1600"
+        Background="#F5F5F5" WindowStartupLocation="CenterScreen">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="60"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Top Search Bar -->
+        <Border Grid.Row="0" Background="#007ACC" Padding="20">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="200"/>
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Orientation="Horizontal" Grid.Column="0">
+                    <TextBlock Text="🔍" FontSize="20" VerticalAlignment="Center" Margin="0,0,10,0"/>
+                    <TextBox x:Name="GlobalSearchBox" Height="40" Padding="15" Width="400"
+                             Text="{Binding SearchQuery, UpdateSourceTrigger=PropertyChanged}"
+                             Foreground="Black" Background="White" FontSize="14"/>
+                    <Button Content="🔍 Search" Height="40" Width="100" Margin="10,0,0,0" 
+                            Command="{Binding SearchProductsCommand}" Background="#28A745" Foreground="White" FontWeight="Bold"/>
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal" Grid.Column="1" HorizontalAlignment="Right">
+                    <TextBlock Text="{Binding TotalRevenue, StringFormat='💰 ${0:F0}'}" 
+                               Foreground="White" FontSize="14" VerticalAlignment="Center" Margin="0,0,20,0" FontWeight="Bold"/>
+                    <TextBlock Text="{Binding ActiveClones, StringFormat='🤖 {0} Clones'}" 
+                               Foreground="White" FontSize="14" VerticalAlignment="Center" FontWeight="Bold"/>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <!-- Main Content -->
+        <TabControl Grid.Row="1">
+            <!-- Tab 1: Live Dashboard -->
+            <TabItem Header="📊 Live Dashboard" Padding="10">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="300"/>
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Grid.Column="0" Margin="20">
+                        <TextBlock Text="Live Market Data" FontSize="14" FontWeight="Bold" Margin="0,0,0,10"/>
+                        <DataGrid ItemsSource="{Binding LiveMarketData}" AutoGenerateColumns="False" Height="400">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Product" Binding="{Binding Product}" Width="200"/>
+                                <DataGridTextColumn Header="Price" Binding="{Binding Price, StringFormat=C}" Width="100"/>
+                                <DataGridTextColumn Header="Trend" Binding="{Binding Trend}" Width="100"/>
+                                <DataGridTextColumn Header="Volume" Binding="{Binding Volume}" Width="100"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+
+                        <TextBlock Text="Live Orders" FontSize="14" FontWeight="Bold" Margin="0,20,0,10"/>
+                        <DataGrid ItemsSource="{Binding Orders}" AutoGenerateColumns="False" Height="300">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Order ID" Binding="{Binding OrderId}" Width="120"/>
+                                <DataGridTextColumn Header="Amount" Binding="{Binding Total, StringFormat=C}" Width="100"/>
+                                <DataGridTextColumn Header="Status" Binding="{Binding Status}" Width="100"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="1" Margin="10,20,20,20">
+                        <Border BorderBrush="#DDD" BorderThickness="1" Padding="15" Margin="0,0,0,10">
+                            <StackPanel>
+                                <TextBlock Text="Total Revenue" FontWeight="Bold" FontSize="12"/>
+                                <TextBlock Text="{Binding TotalRevenue, StringFormat=${0:F0}}" FontSize="20" Foreground="#28A745" FontWeight="Bold"/>
+                            </StackPanel>
+                        </Border>
+
+                        <Border BorderBrush="#DDD" BorderThickness="1" Padding="15" Margin="0,0,0,10">
+                            <StackPanel>
+                                <TextBlock Text="Revenue/Hour" FontWeight="Bold" FontSize="12"/>
+                                <TextBlock Text="{Binding RevenuePerHour, StringFormat=${0:F0}}" FontSize="20" Foreground="#007ACC" FontWeight="Bold"/>
+                            </StackPanel>
+                        </Border>
+
+                        <Border BorderBrush="#DDD" BorderThickness="1" Padding="15" Margin="0,0,0,10">
+                            <StackPanel>
+                                <TextBlock Text="Active Clones" FontWeight="Bold" FontSize="12"/>
+                                <TextBlock Text="{Binding ActiveClones}" FontSize="20" Foreground="#FFC107" FontWeight="Bold"/>
+                            </StackPanel>
+                        </Border>
+
+                        <Border BorderBrush="#DDD" BorderThickness="1" Padding="15">
+                            <StackPanel>
+                                <TextBlock Text="Total Orders" FontWeight="Bold" FontSize="12"/>
+                                <TextBlock Text="{Binding TotalOrders}" FontSize="20" Foreground="#DC3545" FontWeight="Bold"/>
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+                </Grid>
+            </TabItem>
+
+            <!-- Tab 2: Amazon + Google Search -->
+            <TabItem Header="🔍 Search Results" Padding="10">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Grid.Column="0" Margin="20">
+                        <TextBlock Text="Amazon Results" FontSize="14" FontWeight="Bold" Margin="0,0,0,10"/>
+                        <DataGrid ItemsSource="{Binding Products}" AutoGenerateColumns="False" Height="700">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Title" Binding="{Binding Title}" Width="250"/>
+                                <DataGridTextColumn Header="Price" Binding="{Binding Price, StringFormat=C}" Width="100"/>
+                                <DataGridTextColumn Header="Supplier" Binding="{Binding Supplier}" Width="100"/>
+                                <DataGridTextColumn Header="Profit" Binding="{Binding Profit, StringFormat=C}" Width="100"/>
+                                <DataGridTextColumn Header="Margin" Binding="{Binding Margin, StringFormat=P1}" Width="80"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="1" Margin="20">
+                        <TextBlock Text="Google Search Results" FontSize="14" FontWeight="Bold" Margin="0,0,0,10"/>
+                        <DataGrid ItemsSource="{Binding GoogleResults}" AutoGenerateColumns="False" Height="700">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Title" Binding="{Binding Title}" Width="250"/>
+                                <DataGridTextColumn Header="URL" Binding="{Binding Url}" Width="200"/>
+                                <DataGridTextColumn Header="Price" Binding="{Binding Price, StringFormat=C}" Width="100"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </StackPanel>
+                </Grid>
+            </TabItem>
+
+            <!-- Tab 3: AI Hub -->
+            <TabItem Header="🤖 AI Hub" Padding="10">
+                <Grid>
+                    <StackPanel Margin="20">
+                        <ComboBox Height="35" Margin="0,0,0,10">
+                            <ComboBoxItem>Google Gemini</ComboBoxItem>
+                            <ComboBoxItem>Microsoft Copilot</ComboBoxItem>
+                            <ComboBoxItem>Perplexity AI</ComboBoxItem>
+                            <ComboBoxItem>Amazon Q</ComboBoxItem>
+                        </ComboBox>
+
+                        <TextBlock Text="Chat:" FontWeight="Bold" Margin="0,10,0,5"/>
+                        <TextBox Height="500" Margin="0,0,0,10" IsReadOnly="True" 
+                                 VerticalScrollBarVisibility="Auto" Background="White" Padding="10" TextWrapping="Wrap"/>
+
+                        <StackPanel Orientation="Horizontal">
+                            <TextBox Height="40" Padding="10" Width="400"/>
+                            <Button Content="📤 Send" Height="40" Width="100" Margin="10,0,0,0" 
+                                    Background="#007ACC" Foreground="White"/>
+                        </StackPanel>
+                    </StackPanel>
+                </Grid>
+            </TabItem>
+
+            <!-- Tab 4: Drawing Canvas -->
+            <TabItem Header="🎨 Drawing Canvas" Padding="10">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="50"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="10">
+                        <Button Content="🖌️ Brush" Width="80" Height="40" Margin="5,0,0,0"/>
+                        <Button Content="✏️ Pencil" Width="80" Height="40" Margin="5,0,0,0"/>
+                        <Button Content="🗑️ Clear" Width="80" Height="40" Margin="5,0,0,0"/>
+                        <Button Content="💾 Save" Width="80" Height="40" Margin="5,0,0,0"/>
+                        <Button Content="🤖 AI Generate" Width="120" Height="40" Margin="5,0,0,0" Background="#28A745" Foreground="White"/>
+                    </StackPanel>
+
+                    <Canvas Grid.Row="1" Background="White" x:Name="DrawingCanvas" Margin="10"/>
+                </Grid>
+            </TabItem>
+
+            <!-- Tab 5: Website Converter -->
+            <TabItem Header="🌐 Website Converter" Padding="10">
+                <Grid>
+                    <StackPanel Margin="20">
+                        <TextBlock Text="Website URL:" FontWeight="Bold" Margin="0,0,0,5"/>
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,15">
+                            <TextBox Height="35" Padding="10" Width="400"/>
+                            <Button Content="📥 Import" Height="35" Width="100" Margin="10,0,0,0" Background="#007ACC" Foreground="White"/>
+                        </StackPanel>
+
+                        <TextBlock Text="Preview:" FontWeight="Bold" Margin="0,10,0,10"/>
+                        <TextBox Height="600" IsReadOnly="True" TextWrapping="Wrap" 
+                                 VerticalScrollBarVisibility="Auto" Padding="10" Background="White"/>
+
+                        <Button Content="✅ Convert" Height="40" Margin="0,15,0,0" Background="#28A745" Foreground="White"/>
+                    </StackPanel>
+                </Grid>
+            </TabItem>
+
+            <!-- Tab 6: Autonomous Agent -->
+            <TabItem Header="🤖 Autonomous Agent" Padding="10">
+                <Grid>
+                    <StackPanel Margin="20">
+                        <TextBlock Text="Amazon Q - 1000 Clones Running" FontSize="14" FontWeight="Bold" Margin="0,0,0,15"/>
+                        <TextBlock Text="🟢 ACTIVE" Foreground="Green" FontSize="12" Margin="0,0,0,15"/>
+
+                        <Grid Margin="0,0,0,15">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <Border BorderBrush="#DDD" BorderThickness="1" Padding="15" Margin="0,0,10,0">
+                                <StackPanel>
+                                    <TextBlock Text="Active Clones" FontWeight="Bold"/>
+                                    <TextBlock Text="1000" FontSize="24" Foreground="#007ACC"/>
+                                </StackPanel>
+                            </Border>
+
+                            <Border BorderBrush="#DDD" BorderThickness="1" Padding="15" Margin="0,0,10,0">
+                                <StackPanel>
+                                    <TextBlock Text="Revenue/Hour" FontWeight="Bold"/>
+                                    <TextBlock Text="$5,000" FontSize="24" Foreground="#28A745"/>
+                                </StackPanel>
+                            </Border>
+
+                            <Border BorderBrush="#DDD" BorderThickness="1" Padding="15">
+                                <StackPanel>
+                                    <TextBlock Text="Orders/Day" FontWeight="Bold"/>
+                                    <TextBlock Text="2,500+" FontSize="24" Foreground="#FFC107"/>
+                                </StackPanel>
+                            </Border>
+                        </Grid>
+
+                        <TextBlock Text="Logs:" FontWeight="Bold" Margin="0,10,0,10"/>
+                        <TextBox Height="400" IsReadOnly="True" TextWrapping="Wrap" 
+                                 VerticalScrollBarVisibility="Auto" Padding="10" Background="White">
+[LIVE] Clone #1-100: Searching products...
+[LIVE] Clone #101-200: Processing orders...
+[LIVE] Clone #201-300: Optimizing prices...
+[LIVE] Clone #301-1000: Generating revenue...
+                        </TextBox>
+
+                        <StackPanel Orientation="Horizontal" Margin="0,15,0,0">
+                            <Button Content="▶️ Start" Height="40" Width="100" Background="#28A745" Foreground="White"/>
+                            <Button Content="⏸️ Pause" Height="40" Width="100" Margin="10,0,0,0"/>
+                            <Button Content="🛑 Stop" Height="40" Width="100" Margin="10,0,0,0" Background="#DC3545" Foreground="White"/>
+                        </StackPanel>
+                    </StackPanel>
+                </Grid>
+            </TabItem>
+
+            <!-- Tab 7: Graphic AI -->
+            <TabItem Header="🎨 Graphic AI" Padding="10">
+                <Grid>
+                    <StackPanel Margin="20">
+                        <TextBlock Text="AI Image Generation" FontSize="14" FontWeight="Bold" Margin="0,0,0,15"/>
+
+                        <TextBlock Text="Prompt:" FontWeight="Bold" Margin="0,0,0,5"/>
+                        <TextBox Height="60" Padding="10" TextWrapping="Wrap" Margin="0,0,0,10"
+                                 Text="A professional product photo for Amazon listing..."/>
+
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,15">
+                            <Button Content="🎨 DALL-E" Height="40" Width="120" Background="#007ACC" Foreground="White"/>
+                            <Button Content="🎨 Midjourney" Height="40" Width="120" Margin="10,0,0,0" Background="#007ACC" Foreground="White"/>
+                            <Button Content="🎨 Stable Diffusion" Height="40" Width="150" Margin="10,0,0,0" Background="#007ACC" Foreground="White"/>
+                        </StackPanel>
+
+                        <TextBlock Text="Generated Images:" FontWeight="Bold" Margin="0,10,0,10"/>
+                        <Grid Height="300">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <Border BorderBrush="#DDD" BorderThickness="1" Margin="5" Background="#E8E8E8">
+                                <TextBlock Text="Image 1" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                            </Border>
+                            <Border BorderBrush="#DDD" BorderThickness="1" Margin="5" Background="#E8E8E8" Grid.Column="1">
+                                <TextBlock Text="Image 2" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                            </Border>
+                            <Border BorderBrush="#DDD" BorderThickness="1" Margin="5" Background="#E8E8E8" Grid.Column="2">
+                                <TextBlock Text="Image 3" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                            </Border>
+                        </Grid>
+
+                        <Button Content="✅ Use Selected" Height="40" Margin="0,15,0,0" Background="#28A745" Foreground="White"/>
+                    </StackPanel>
+                </Grid>
+            </TabItem>
+
+            <!-- Tab 8: Profitrechner -->
+            <TabItem Header="💰 Profitrechner" Padding="10">
+                <Grid>
+                    <StackPanel Margin="20" Width="400" HorizontalAlignment="Left">
+                        <TextBlock Text="Price Calculator" FontSize="16" FontWeight="Bold" Margin="0,0,0,20"/>
+
+                        <TextBlock Text="Supplier Price ($):" Margin="0,0,0,5"/>
+                        <TextBox Height="35" Padding="10" Margin="0,0,0,15"
+                                 Text="{Binding SupplierPrice, UpdateSourceTrigger=PropertyChanged}"/>
+
+                        <TextBlock Text="Target Margin (%):" Margin="0,0,0,5"/>
+                        <Slider Minimum="10" Maximum="60" Value="{Binding TargetMargin}" Margin="0,0,0,15"/>
+                        <TextBlock Text="{Binding TargetMargin, StringFormat=Margin: {0:F1}%}" Margin="0,0,0,15"/>
+
+                        <Button Content="📊 Calculate" Height="40" Command="{Binding CalculatePriceCommand}" 
+                                Background="#28A745" Foreground="White" FontSize="14" Margin="0,0,0,20"/>
+
+                        <Border BorderBrush="#DDD" BorderThickness="1" Padding="15">
+                            <StackPanel>
+                                <TextBlock Text="Results:" FontWeight="Bold" Margin="0,0,0,10"/>
+                                <TextBlock Text="{Binding PricingResult.TotalCost, StringFormat='Total Cost: {0:C}'}" Margin="0,5,0,0"/>
+                                <TextBlock Text="{Binding PricingResult.SellingPrice, StringFormat='Selling Price: {0:C}'}" Margin="0,5,0,0"/>
+                                <TextBlock Text="{Binding PricingResult.Profit, StringFormat='Profit: {0:C}'}" Foreground="Green" FontWeight="Bold" Margin="0,5,0,0"/>
+                                <TextBlock Text="{Binding PricingResult.MarginPercent, StringFormat='Margin: {0:F1}%'}" Margin="0,5,0,0"/>
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+                </Grid>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</Window>
