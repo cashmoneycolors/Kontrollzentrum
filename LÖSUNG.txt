@@ -1,0 +1,64 @@
+================================================================================
+                    🔧 BERECHTIGUNGSPROBLEM LÖSUNG
+================================================================================
+
+Problem: "Die App kann nicht aus dem Computer ausgeführt werden"
+Lösung: Berechtigungen freigeben
+
+================================================================================
+                    🚀 SCHNELLE LÖSUNG (3 SCHRITTE)
+================================================================================
+
+SCHRITT 1: Berechtigungen freigeben
+$ ENABLE_EXECUTION.bat
+
+SCHRITT 2: Warten auf Bestätigung
+(Fenster schließt automatisch)
+
+SCHRITT 3: App starten
+$ START.bat
+
+================================================================================
+                    📋 DATEIEN
+================================================================================
+
+START.bat - Startet die App
+RUN.py - Python Startup
+ENABLE_EXECUTION.bat - Gibt Berechtigungen frei
+
+================================================================================
+                    ✅ ERWARTET
+================================================================================
+
+Nach dem Start siehst du:
+
+🚀 KONTROLLZENTRUM STARTET...
+
+[TEAM-MODUS] Autostart am ...
+[INSTALLATION] ...
+[RUN] ...
+
+✅ FERTIG!
+
+================================================================================
+                    🎯 JETZT STARTEN
+================================================================================
+
+1. Doppelklick auf: ENABLE_EXECUTION.bat
+2. Warten auf Bestätigung
+3. Doppelklick auf: START.bat
+
+ODER:
+
+Öffne PowerShell und führe aus:
+$ cd c:\Users\Laptop\Kontrollzentrum-1
+$ python RUN.py
+
+================================================================================
+
+Erstellt: 01.12.2025
+Status: READY TO RUN
+
+🎉 KONTROLLZENTRUM LÄDT JETZT!
+
+================================================================================

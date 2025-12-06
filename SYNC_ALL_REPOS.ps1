@@ -2,16 +2,16 @@
 <#
 .SYNOPSIS
     OPTION A SYNC SCRIPT - Synchronisiere alle Submodules zentral
-    
+
 .DESCRIPTION
     Dieses Script aktualisiert automatisch alle 8 Submodules im Kontrollzentrum Repository
     und erstellt einen Sync-Report mit Status und Änderungen.
-    
+
 .PARAMETER Mode
     dev    = Lokale Updates ohne Push (default)
     prod   = Updates + Commit + Push zu GitHub
     status = Nur Status anzeigen
-    
+
 .PARAMETER Pull
     $true  = Alle Submodules pullen
     $false = Nur Status (default)
@@ -19,16 +19,16 @@
 .EXAMPLE
     # Status anzeigen
     .\SYNC_ALL_REPOS.ps1 -Mode status
-    
+
     # Alle Submodules updaten (ohne push)
     .\SYNC_ALL_REPOS.ps1 -Pull $true -Mode dev
-    
+
     # Vollständige Sync + Push
     .\SYNC_ALL_REPOS.ps1 -Pull $true -Mode prod
 
 .AUTHOR
     GitHub Copilot | Kontrollzentrum OPTION A Automation
-    
+
 .VERSION
     1.0 | 01.12.2025
 #>
@@ -36,7 +36,7 @@
 param(
     [ValidateSet('status', 'dev', 'prod')]
     [string]$Mode = 'status',
-    
+
     [bool]$Pull = $false
 )
 
@@ -88,13 +88,13 @@ if ($Pull) {
     Write-Status "`n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━" $colors.Cyan
     Write-Status "2️⃣  SUBMODULES UPDATEN" $colors.Magenta
     Write-Status "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━" $colors.Cyan
-    
+
     Write-Status "`nInitialisiere Submodules..." $colors.Yellow
     git submodule update --init --recursive 2>&1 | Write-Status -Color $colors.Gray
-    
+
     Write-Status "`nUpdate Submodules (fetch latest)..." $colors.Yellow
     git submodule update --remote --merge 2>&1 | Write-Status -Color $colors.Gray
-    
+
     Write-Status "`n✅ Submodule aktualisiert" $colors.Green
 }
 
@@ -103,18 +103,18 @@ if ($Mode -eq 'prod') {
     Write-Status "`n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━" $colors.Cyan
     Write-Status "3️⃣  COMMIT & PUSH (PRODUCTION MODE)" $colors.Magenta
     Write-Status "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━" $colors.Cyan
-    
+
     # Git Status
     $changes = & git status --porcelain
     if ($changes) {
         Write-Status "`n📝 Änderungen erkannt:" $colors.Yellow
         Write-Status $changes $colors.Gray
-        
+
         Write-Status "`nCommitte Änderungen..." $colors.Yellow
         git add .
         git commit -m "🔄 Update submodules - $(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')" -q
         Write-Status "✅ Commit erstellt" $colors.Green
-        
+
         Write-Status "`nPush zu GitHub..." $colors.Yellow
         git push origin blackboxai/azure-mcp-setup -q
         Write-Status "✅ Push erfolgreich" $colors.Green

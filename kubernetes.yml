@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kontrollzentrum
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: kontrollzentrum
+  template:
+    metadata:
+      labels:
+        app: kontrollzentrum
+    spec:
+      containers:
+      - name: kontrollzentrum
+        image: kontrollzentrum:latest
+        ports:
+        - containerPort: 8000
+        env:
+        - name: SECRET_KEY
+          valueFrom:
+            secretKeyRef:
+              name: kontrollzentrum-secret
+              key: secret-key
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "250m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: kontrollzentrum-service
+spec:
+  selector:
+    app: kontrollzentrum
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 8000
+  type: LoadBalancer

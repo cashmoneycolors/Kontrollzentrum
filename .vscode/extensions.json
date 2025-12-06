@@ -14,6 +14,13 @@
         "donjayamanne.githistory",
         "streetsidesoftware.code-spell-checker",
         "esbenp.prettier-vscode",
-        "ms-vscode.powershell"
+        "ms-vscode.powershell",
+        "vscjava.migrate-java-to-azure",
+        "ms-dotnettools.vscode-dotnet-runtime",
+        "ms-dotnettools.vscode-dotnet-runtime",
+        "ms-vscode.cpptools",
+        "blackboxlabs.blackbox-labs",
+        "blackboxlabs.blackbox-labs",
+        "blackboxlabs.blackbox-labs"
     ]
 }

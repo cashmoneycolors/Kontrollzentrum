@@ -1,12 +1,36 @@
 # -*- mode: python ; coding: utf-8 -*-
-
+# MEGA ULTRA ROBOTER KI APP - QUANTUM PRODUCTION EDITION
+# Vollständig integriert: OpenAI + Stripe + PayPal + AWS + NFT + Complete System
 
 a = Analysis(
     ['mega_roboter_ki.py'],
     pathex=[],
     binaries=[],
-    datas=[],
-    hiddenimports=[],
+    datas=[
+        ('modules', 'modules'),
+        ('core', 'core'),
+        ('.env.example', '.'),
+    ],
+    hiddenimports=[
+        'streamlit',
+        'fastapi',
+        'uvicorn',
+        'openai',
+        'stripe',
+        'paypalcheckoutsdk',
+        'boto3',
+        'web3',
+        'anthropic',
+        'google.generativeai',
+        'pandas',
+        'numpy',
+        'requests',
+        'dotenv',
+        'jwt',
+        'psutil',
+        'cryptography',
+        'pillow',
+    ],
     hookspath=[],
     hooksconfig={},
     runtime_hooks=[],

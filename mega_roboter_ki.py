@@ -22,14 +22,14 @@ def ensure_structure():
     folders = ["modules", "core", "tests", ".github", "logs", "backups", "data"]
     for folder in folders:
         Path(folder).mkdir(exist_ok=True)
-    
+
     if not Path(".env").exists():
         if Path(".env.example").exists():
             shutil.copy(".env.example", ".env")
             print("[⚠️] .env erstellt - BITTE API-KEYS EINTRAGEN!")
         else:
             print("[❌] KRITISCH: .env.example fehlt!")
-    
+
     print("[✅] Projektstruktur vollständig angelegt.")
 
 def install_requirements():
@@ -37,7 +37,7 @@ def install_requirements():
     print("\n" + "="*70)
     print("📦 INSTALLIERE ALLE PRODUCTION DEPENDENCIES")
     print("="*70)
-    
+
     if Path("requirements.txt").exists():
         try:
             # Verwende py -3.11 für korrektes Python
@@ -67,7 +67,7 @@ def check_keys():
     print("\n" + "="*70)
     print("🔑 PRÜFE ALLE API-KEYS (ZERO-TOLERANCE POLICY)")
     print("="*70)
-    
+
     try:
         from core.key_check import check_all_keys, REQUIRED_KEYS
         check_all_keys()
@@ -86,7 +86,7 @@ def test_all_integrations():
     print("\n" + "="*70)
     print("🧪 TESTE ALLE API-INTEGRATIONEN (LIVE PRODUKTIV)")
     print("="*70)
-    
+
     integrations = {
         "OpenAI Integration": "openai_integration",
         "Payment System (Stripe + PayPal)": "payment",
@@ -96,7 +96,7 @@ def test_all_integrations():
         "Complete System": "complete_system_modul",
         "API Gateway": "ki_sideboard"
     }
-    
+
     results = []
     for name, module_name in integrations.items():
         try:
@@ -111,7 +111,7 @@ def test_all_integrations():
         except Exception as e:
             results.append((name, "❌", str(e)))
             print(f"❌ {name}: {e}")
-    
+
     print(f"\n[SUMMARY] {sum(1 for r in results if r[1]=='✅')}/{len(results)} erfolgreich")
     return results
 
@@ -120,7 +120,7 @@ def test_modules():
     print("\n" + "="*70)
     print("🧪 FÜHRE ALLE UNITTESTS AUS")
     print("="*70)
-    
+
     try:
         result = subprocess.run(
             ["py", "-3.11", "-m", "unittest", "discover", "tests", "-v"],
@@ -141,15 +141,15 @@ def run_full_system():
     print("\n" + "="*70)
     print("🚀 STARTE VOLLSTÄNDIGES KONTROLLZENTRUM SYSTEM")
     print("="*70)
-    
+
     print("\n[ℹ️] Wähle Startmodus:")
     print("  1. Team-Modus (Alle Module automatisch)")
     print("  2. API Gateway (Port 8000)")
     print("  3. Streamlit Dashboard")
     print("  4. Health Check")
-    
+
     choice = input("\nModus wählen (1-4): ").strip()
-    
+
     try:
         if choice == "1":
             subprocess.run(["py", "-3.11", "main.py", "team"], check=False)
@@ -171,18 +171,18 @@ def backup():
     print("\n" + "="*70)
     print("💾 ERSTELLE VOLLSTÄNDIGES BACKUP")
     print("="*70)
-    
+
     try:
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
         backup_name = f"backups/backup_kontrollzentrum_{timestamp}"
-        
+
         # Exclude .env and __pycache__
         exclude_patterns = ['.env', '__pycache__', '*.pyc', 'dist', 'build']
-        
-        shutil.make_archive(backup_name, 'zip', '.', 
-                          ignore=lambda dir, files: [f for f in files 
+
+        shutil.make_archive(backup_name, 'zip', '.',
+                          ignore=lambda dir, files: [f for f in files
                                                      if any(p in f for p in exclude_patterns)])
-        
+
         print(f"[✅] Backup erstellt: {backup_name}.zip")
         print(f"[ℹ️] Größe: {os.path.getsize(backup_name + '.zip') / 1024 / 1024:.2f} MB")
     except Exception as e:
@@ -193,20 +193,20 @@ def show_system_status():
     print("\n" + "="*70)
     print("📊 SYSTEM STATUS - MEGA ULTRA ROBOTER KI")
     print("="*70)
-    
+
     # Module zählen
     module_count = len(list(Path("modules").glob("*.py"))) if Path("modules").exists() else 0
-    
+
     # Dependencies prüfen
     try:
         import streamlit, fastapi, openai, stripe, boto3, web3
         deps_ok = "✅ ALLE DEPENDENCIES INSTALLIERT"
     except ImportError:
         deps_ok = "⚠️ DEPENDENCIES FEHLEN - INSTALLATION ERFORDERLICH"
-    
+
     # API Keys prüfen
     env_exists = "✅ .env vorhanden" if Path(".env").exists() else "❌ .env fehlt!"
-    
+
     print(f"""
 📁 Projekt-Struktur:
    ✅ Core-Module: {len(list(Path('core').glob('*.py')))} Dateien
@@ -243,7 +243,7 @@ def production_checklist():
     print("\n" + "="*70)
     print("✅ PRODUCTION CHECKLIST - VOLLSTÄNDIGKEITSPRÜFUNG")
     print("="*70)
-    
+
     checklist = {
         "Projektstruktur": lambda: all(Path(p).exists() for p in ["modules", "core", "tests"]),
         ".env Datei": lambda: Path(".env").exists(),
@@ -252,7 +252,7 @@ def production_checklist():
         "Core Module": lambda: Path("core/key_check.py").exists(),
         "Production Module": lambda: len(list(Path("modules").glob("*.py"))) >= 10
     }
-    
+
     passed = 0
     for check_name, check_func in checklist.items():
         try:
@@ -262,11 +262,11 @@ def production_checklist():
         except:
             status = "⚠️"
             result = False
-        
+
         print(f"{status} {check_name}")
-    
+
     print(f"\n[SUMMARY] {passed}/{len(checklist)} Checks bestanden")
-    
+
     if passed == len(checklist):
         print("\n🎉 SYSTEM IST PRODUCTION-READY! 🎉")
     else:
@@ -277,11 +277,11 @@ def advanced_diagnostics():
     print("\n" + "="*70)
     print("🔬 ERWEITERTE SYSTEM-DIAGNOSTIK")
     print("="*70)
-    
+
     # Python Version
     import sys
     print(f"Python Version: {sys.version}")
-    
+
     # Installed Packages
     try:
         result = subprocess.run(
@@ -293,7 +293,7 @@ def advanced_diagnostics():
         print(f"Installierte Packages: {package_count}")
     except:
         print("Package-Zählung fehlgeschlagen")
-    
+
     # Disk Space
     try:
         import shutil
@@ -301,7 +301,7 @@ def advanced_diagnostics():
         print(f"Festplatte: {free // (2**30)} GB frei von {total // (2**30)} GB")
     except:
         pass
-    
+
     # Module Health
     print("\n🏥 Module Health Check:")
     try:
@@ -333,11 +333,11 @@ def main():
 10. 🔬 Erweiterte Diagnostik
  0. ❌ Beenden
     """)
-    
+
     while True:
         try:
             wahl = input("\n🎯 Aktion wählen (0-10): ").strip()
-            
+
             if wahl == "1":
                 show_system_status()
             elif wahl == "2":
@@ -365,7 +365,7 @@ def main():
                 break
             else:
                 print("[❌] Ungültige Eingabe! Bitte 0-10 wählen.")
-                
+
         except KeyboardInterrupt:
             print("\n\n[⚠️] Programm durch Benutzer abgebrochen.")
             break
@@ -376,6 +376,6 @@ def main():
 if __name__ == "__main__":
     # Zeige initialen Status
     show_system_status()
-    
+
     # Starte Hauptmenü
     main()

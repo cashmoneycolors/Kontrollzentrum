@@ -17,14 +17,14 @@ def run(*args):
     """Testet AWS Verbindung"""
     if not AWS_AVAILABLE:
         return {"status": "error", "message": "boto3 package fehlt"}
-    
+
     access_key = os.getenv("AWS_ACCESS_KEY_ID")
     secret_key = os.getenv("AWS_SECRET_ACCESS_KEY")
     region = os.getenv("AWS_REGION", "eu-central-1")
-    
+
     if not access_key or not secret_key:
         return {"status": "error", "message": "AWS Keys nicht konfiguriert"}
-    
+
     try:
         # Test S3 Verbindung
         s3 = boto3.client(
@@ -33,9 +33,9 @@ def run(*args):
             aws_secret_access_key=secret_key,
             region_name=region
         )
-        
+
         buckets = s3.list_buckets()
-        
+
         return {
             "status": "success",
             "message": "AWS verbunden",
@@ -50,14 +50,14 @@ def upload_to_s3(file_path, bucket_name, object_name=None):
     """Lädt Datei zu S3 hoch"""
     if not AWS_AVAILABLE:
         raise RuntimeError("boto3 nicht installiert")
-    
+
     access_key = os.getenv("AWS_ACCESS_KEY_ID")
     secret_key = os.getenv("AWS_SECRET_ACCESS_KEY")
     region = os.getenv("AWS_REGION", "eu-central-1")
-    
+
     if not object_name:
         object_name = os.path.basename(file_path)
-    
+
     try:
         s3 = boto3.client(
             's3',
@@ -65,11 +65,11 @@ def upload_to_s3(file_path, bucket_name, object_name=None):
             aws_secret_access_key=secret_key,
             region_name=region
         )
-        
+
         s3.upload_file(file_path, bucket_name, object_name)
-        
+
         url = f"https://{bucket_name}.s3.{region}.amazonaws.com/{object_name}"
-        
+
         return {
             "status": "success",
             "bucket": bucket_name,
@@ -83,11 +83,11 @@ def download_from_s3(bucket_name, object_name, local_path):
     """Lädt Datei von S3 herunter"""
     if not AWS_AVAILABLE:
         raise RuntimeError("boto3 nicht installiert")
-    
+
     access_key = os.getenv("AWS_ACCESS_KEY_ID")
     secret_key = os.getenv("AWS_SECRET_ACCESS_KEY")
     region = os.getenv("AWS_REGION", "eu-central-1")
-    
+
     try:
         s3 = boto3.client(
             's3',
@@ -95,9 +95,9 @@ def download_from_s3(bucket_name, object_name, local_path):
             aws_secret_access_key=secret_key,
             region_name=region
         )
-        
+
         s3.download_file(bucket_name, object_name, local_path)
-        
+
         return {
             "status": "success",
             "bucket": bucket_name,
@@ -111,11 +111,11 @@ def list_s3_objects(bucket_name, prefix=""):
     """Listet S3 Objekte auf"""
     if not AWS_AVAILABLE:
         raise RuntimeError("boto3 nicht installiert")
-    
+
     access_key = os.getenv("AWS_ACCESS_KEY_ID")
     secret_key = os.getenv("AWS_SECRET_ACCESS_KEY")
     region = os.getenv("AWS_REGION", "eu-central-1")
-    
+
     try:
         s3 = boto3.client(
             's3',
@@ -123,16 +123,16 @@ def list_s3_objects(bucket_name, prefix=""):
             aws_secret_access_key=secret_key,
             region_name=region
         )
-        
+
         response = s3.list_objects_v2(Bucket=bucket_name, Prefix=prefix)
-        
+
         objects = []
         if 'Contents' in response:
             objects = [
                 {"key": obj['Key'], "size": obj['Size'], "modified": str(obj['LastModified'])}
                 for obj in response['Contents']
             ]
-        
+
         return {
             "status": "success",
             "bucket": bucket_name,
@@ -146,11 +146,11 @@ def get_ec2_instances():
     """Listet EC2 Instanzen auf"""
     if not AWS_AVAILABLE:
         raise RuntimeError("boto3 nicht installiert")
-    
+
     access_key = os.getenv("AWS_ACCESS_KEY_ID")
     secret_key = os.getenv("AWS_SECRET_ACCESS_KEY")
     region = os.getenv("AWS_REGION", "eu-central-1")
-    
+
     try:
         ec2 = boto3.client(
             'ec2',
@@ -158,9 +158,9 @@ def get_ec2_instances():
             aws_secret_access_key=secret_key,
             region_name=region
         )
-        
+
         response = ec2.describe_instances()
-        
+
         instances = []
         for reservation in response['Reservations']:
             for instance in reservation['Instances']:
@@ -170,7 +170,7 @@ def get_ec2_instances():
                     "state": instance['State']['Name'],
                     "launch_time": str(instance['LaunchTime'])
                 })
-        
+
         return {
             "status": "success",
             "instances": instances,

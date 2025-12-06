@@ -12,7 +12,7 @@
         <!-- Sidebar -->
         <StackPanel Grid.Column="0" Background="#252526">
             <TextBlock Text="KONTROLLZENTRUM" FontSize="14" FontWeight="Bold" Margin="10,10,10,20" Foreground="#00d4ff"/>
-            
+
             <Button Content="🏠 Dashboard" Click="ShowDashboard" Style="{StaticResource SidebarButton}" Margin="10,5"/>
             <Button Content="📊 Module" Click="ShowModules" Style="{StaticResource SidebarButton}" Margin="10,5"/>
             <Button Content="🔑 API-Keys" Click="ShowKeys" Style="{StaticResource SidebarButton}" Margin="10,5"/>

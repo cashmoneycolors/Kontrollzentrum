@@ -3009,11 +3009,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "c:\\Users\\Laptop\\Kontrollzentrum-1\\dropshipping_desktop\\DropshippingApp.csproj",
+      "projectUniqueName": "C:\\Users\\Laptop\\Kontrollzentrum-1\\dropshipping_desktop\\DropshippingApp.csproj",
       "projectName": "DropshippingApp",
-      "projectPath": "c:\\Users\\Laptop\\Kontrollzentrum-1\\dropshipping_desktop\\DropshippingApp.csproj",
+      "projectPath": "C:\\Users\\Laptop\\Kontrollzentrum-1\\dropshipping_desktop\\DropshippingApp.csproj",
       "packagesPath": "C:\\Users\\Laptop\\.nuget\\packages\\",
-      "outputPath": "c:\\Users\\Laptop\\Kontrollzentrum-1\\dropshipping_desktop\\obj\\",
+      "outputPath": "C:\\Users\\Laptop\\Kontrollzentrum-1\\dropshipping_desktop\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

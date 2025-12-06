@@ -295,4 +295,26 @@ def main():
 
 
 if __name__ == "__main__":
+    main()       return
+        elif cmd == "team":
+            run_team_mode()
+            return
+    
+    # Streamlit Detection
+    try:
+        import streamlit.web.cli as stcli
+        if len(sys.argv) > 1 and "streamlit" in sys.argv[0].lower():
+            run_streamlit_mode()
+            return
+    except:
+        pass
+
+    # Check for Streamlit run
+    if "streamlit" in " ".join(sys.argv):
+        run_streamlit_mode()
+    else:
+        run_cli_mode()
+
+
+if __name__ == "__main__":
     main()

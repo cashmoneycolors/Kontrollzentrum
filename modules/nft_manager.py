@@ -23,13 +23,13 @@ def get_nft_config():
 def create_nft(image_path, metadata):
     """Erstellt NFT mit IPFS Upload und Blockchain Minting"""
     config = get_nft_config()
-    
+
     if not config["api_key"]:
         raise RuntimeError("NFT_API_KEY fehlt in .env")
-    
+
     # Upload zu IPFS (über NFT.Storage oder Pinata)
     ipfs_url = upload_to_ipfs(image_path, config["api_key"])
-    
+
     # Metadata erstellen
     nft_metadata = {
         "name": metadata.get("name", "Untitled NFT"),
@@ -37,10 +37,10 @@ def create_nft(image_path, metadata):
         "image": ipfs_url,
         "attributes": metadata.get("attributes", [])
     }
-    
+
     # Mint NFT
     nft_id = mint_nft(nft_metadata, config)
-    
+
     return {
         "status": "success",
         "nft_id": nft_id,
@@ -54,11 +54,11 @@ def upload_to_ipfs(file_path, api_key):
     # Beispiel mit NFT.Storage API
     url = "https://api.nft.storage/upload"
     headers = {"Authorization": f"Bearer {api_key}"}
-    
+
     try:
         with open(file_path, "rb") as f:
             response = requests.post(url, headers=headers, files={"file": f})
-        
+
         if response.status_code == 200:
             cid = response.json()["value"]["cid"]
             return f"ipfs://{cid}"
@@ -72,18 +72,18 @@ def mint_nft(metadata, config):
     # Placeholder für echtes Minting
     # Würde Web3.py nutzen für Ethereum
     wallet = config.get("wallet_address")
-    
+
     # Simuliertes Minting
     nft_id = f"nft_{hash(json.dumps(metadata))}"[:16]
-    
+
     return nft_id
 
 def list_on_opensea(nft_id, price_eth=0.1):
     """Listed NFT auf OpenSea"""
     config = get_nft_config()
-    
+
     opensea_url = f"https://opensea.io/assets/ethereum/{config.get('wallet_address', '')}/{nft_id}"
-    
+
     return {
         "status": "success",
         "nft_id": nft_id,
@@ -96,7 +96,7 @@ def get_nft_stats():
     """Holt NFT Statistiken"""
     config = get_nft_config()
     wallet = config.get("wallet_address")
-    
+
     return {
         "wallet": wallet,
         "total_nfts": 0,  # Würde von Blockchain abgerufen

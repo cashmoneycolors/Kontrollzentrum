@@ -124,11 +124,11 @@ async def openai_vision(request: VisionRequest):
     api_key = os.getenv("OPENAI_API_KEY")
     if not api_key or api_key.startswith("sk-test"):
         raise HTTPException(status_code=500, detail="OPENAI_API_KEY nicht konfiguriert")
-    
+
     try:
         from openai import OpenAI
         client = OpenAI(api_key=api_key)
-        
+
         response = client.chat.completions.create(
             model="gpt-4-vision-preview",
             messages=[{
@@ -140,9 +140,9 @@ async def openai_vision(request: VisionRequest):
             }],
             max_tokens=500
         )
-        
+
         description = response.choices[0].message.content
-        
+
         return {
             "status": "success",
             "image_url": request.image_url,
@@ -159,17 +159,17 @@ async def openai_chat(prompt: str):
     api_key = os.getenv("OPENAI_API_KEY")
     if not api_key:
         raise HTTPException(status_code=500, detail="OPENAI_API_KEY nicht konfiguriert")
-    
+
     try:
         from openai import OpenAI
         client = OpenAI(api_key=api_key)
-        
+
         response = client.chat.completions.create(
             model="gpt-4",
             messages=[{"role": "user", "content": prompt}],
             max_tokens=1000
         )
-        
+
         return {
             "status": "success",
             "response": response.choices[0].message.content,
@@ -194,19 +194,19 @@ async def mathpix(request: VisionRequest):
 async def api_status():
     """Zeigt Status aller konfigurierten APIs"""
     keys_status = {}
-    
+
     required_keys = [
         "OPENAI_API_KEY", "STRIPE_API_KEY", "PAYPAL_CLIENT_ID",
         "PAYPAL_CLIENT_SECRET", "AWS_ACCESS_KEY_ID", "NFT_API_KEY"
     ]
-    
+
     for key in required_keys:
         value = os.getenv(key)
         keys_status[key] = {
             "configured": bool(value and not value.startswith("test_") and not value.startswith("sk-test")),
             "value_preview": value[:10] + "..." if value else None
         }
-    
+
     return {
         "status": "ok",
         "keys": keys_status,

@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "ATrNzh5ZoJQ=",
+  "dgSpecHash": "4VME0JXMPVw=",
   "success": true,
-  "projectFilePath": "c:\\Users\\Laptop\\Kontrollzentrum-1\\dropshipping_desktop\\DropshippingApp.csproj",
+  "projectFilePath": "C:\\Users\\Laptop\\Kontrollzentrum-1\\dropshipping_desktop\\DropshippingApp.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Laptop\\.nuget\\packages\\communitytoolkit.mvvm\\8.2.2\\communitytoolkit.mvvm.8.2.2.nupkg.sha512",
     "C:\\Users\\Laptop\\.nuget\\packages\\microsoft.netcore.platforms\\1.1.1\\microsoft.netcore.platforms.1.1.1.nupkg.sha512",
@@ -62,9 +62,9 @@
       "code": "NU1902",
       "level": "Warning",
       "message": "Das Paket \"RestSharp\" 107.3.0 weist eine bekannte Moderat Schweregrad-Sicherheitsanfälligkeit auf, https://github.com/advisories/GHSA-4rr6-2v9v-wcpc.",
-      "projectPath": "c:\\Users\\Laptop\\Kontrollzentrum-1\\dropshipping_desktop\\DropshippingApp.csproj",
+      "projectPath": "C:\\Users\\Laptop\\Kontrollzentrum-1\\dropshipping_desktop\\DropshippingApp.csproj",
       "warningLevel": 1,
-      "filePath": "c:\\Users\\Laptop\\Kontrollzentrum-1\\dropshipping_desktop\\DropshippingApp.csproj",
+      "filePath": "C:\\Users\\Laptop\\Kontrollzentrum-1\\dropshipping_desktop\\DropshippingApp.csproj",
       "libraryId": "RestSharp",
       "targetGraphs": [
         "net8.0-windows7.0"

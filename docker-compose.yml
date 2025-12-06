@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  kontrollzentrum:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      - SECRET_KEY=production-secret
+      - DATABASE_URL=sqlite:///kontrollzentrum.db
+    volumes:
+      - ./logs:/app/logs
+      - ./kontrollzentrum.db:/app/kontrollzentrum.db
+    restart: unless-stopped
+
+  dashboard:
+    build: .
+    command: streamlit run dashboard.py
+    ports:
+      - "8501:8501"
+    depends_on:
+      - kontrollzentrum
+    restart: unless-stopped

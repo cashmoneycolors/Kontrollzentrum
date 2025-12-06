@@ -19,7 +19,7 @@ def process_stripe_payment(amount, currency="eur", email=""):
     api_key = os.getenv("STRIPE_API_KEY")
     if not api_key:
         raise RuntimeError("STRIPE_API_KEY fehlt in .env")
-    
+
     # Stripe Payment Intent erstellen
     url = "https://api.stripe.com/v1/payment_intents"
     headers = {"Authorization": f"Bearer {api_key}"}
@@ -28,7 +28,7 @@ def process_stripe_payment(amount, currency="eur", email=""):
         "currency": currency,
         "receipt_email": email
     }
-    
+
     try:
         response = requests.post(url, headers=headers, data=data)
         if response.status_code == 200:
@@ -42,10 +42,10 @@ def process_paypal_payment(amount, currency="EUR", description=""):
     """Verarbeitet PayPal Zahlung"""
     client_id = os.getenv("PAYPAL_CLIENT_ID")
     client_secret = os.getenv("PAYPAL_CLIENT_SECRET")
-    
+
     if not client_id or not client_secret:
         raise RuntimeError("PAYPAL_CLIENT_ID oder PAYPAL_CLIENT_SECRET fehlt in .env")
-    
+
     # PayPal OAuth Token holen
     auth_url = "https://api.paypal.com/v1/oauth2/token"
     auth_response = requests.post(
@@ -53,12 +53,12 @@ def process_paypal_payment(amount, currency="EUR", description=""):
         auth=(client_id, client_secret),
         data={"grant_type": "client_credentials"}
     )
-    
+
     if auth_response.status_code != 200:
         return {"status": "error", "message": "PayPal Auth fehlgeschlagen"}
-    
+
     access_token = auth_response.json()["access_token"]
-    
+
     # PayPal Order erstellen
     order_url = "https://api.paypal.com/v2/checkout/orders"
     headers = {
@@ -75,7 +75,7 @@ def process_paypal_payment(amount, currency="EUR", description=""):
             "description": description
         }]
     }
-    
+
     try:
         response = requests.post(order_url, headers=headers, json=order_data)
         if response.status_code == 201:
