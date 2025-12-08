@@ -1,0 +1,8 @@
+2025-12-08T21:29:59.6402404+01:00,Backup,Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass,FAILED,1,Robocopy failed with code 16
+2025-12-08T21:30:02.4399149+01:00,Backup,Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass,FAILED,2,Robocopy failed with code 16
+2025-12-08T21:30:09.1445888+01:00,Backup,Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass,FAILED,3,Robocopy failed with code 16
+2025-12-08T21:30:18.0765044+01:00,Backup,Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass,FAILED,4,Robocopy failed with code 16
+2025-12-08T21:30:36.5394635+01:00,Backup,Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass,FAILED,5,Robocopy failed with code 16
+2025-12-08T21:31:09.2484113+01:00,Backup,Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass,FAILED,6,Robocopy failed with code 16
+2025-12-08T21:32:13.8131020+01:00,Backup,Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass,FAILED,7,Robocopy failed with code 16
+2025-12-08T21:32:13.8494861+01:00,Backup,Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass,DEAD_LETTER,7,Robocopy failed with code 16

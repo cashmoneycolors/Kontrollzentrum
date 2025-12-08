@@ -1,63 +1,17 @@
 {
-    "python-envs.pythonProjects": [
-        {
-            "path": "",
-            "envManager": "ms-python.python:venv",
-            "packageManager": "ms-python.python:pip"
-        }
-    ],
-    "editor.formatOnSave": true,
-    "editor.formatOnSaveMode": "modificationsIfAvailable",
-
-    // Python Configuration
-    "python.defaultInterpreterPath": "C:\\Python313\\python.exe",
-    "python.linting.enabled": true,
-    "python.linting.flake8Enabled": true,
-    "python.linting.pylintEnabled": false,
-    "python.formatting.provider": "black",
-    "python.analysis.typeCheckingMode": "basic",
-    "python.analysis.autoImportCompletions": true,
-    "python.analysis.diagnosticMode": "workspace",
-
-    // Streamlit Integration
-    "python.terminal.activateEnvironment": true,
-    "terminal.integrated.env.windows": {
-        "STREAMLIT_SERVER_PORT": "8501",
-        "STREAMLIT_SERVER_HEADLESS": "true"
-    },
-
-    // Code Quality
-    "editor.rulers": [88, 120],
-    "editor.trimAutoWhitespace": true,
-    "files.trimTrailingWhitespace": true,
-    "files.insertFinalNewline": true,
-    "files.trimFinalNewlines": true,
-
-    // Git Integration
-    "git.autofetch": true,
-    "git.confirmSync": false,
-    "git.enableSmartCommit": true,
-
-    // AI/Copilot
-    "github.copilot.enable": {
-        "*": true,
-        "python": true,
-        "markdown": true
-    },
-
-    // File Associations
-    "files.associations": {
-        "*.py": "python",
-        "*.md": "markdown",
-        ".env*": "properties"
-    },
-
-    // Exclude Patterns
-    "files.exclude": {
-        "**/__pycache__": true,
-        "**/*.pyc": true,
-        "**/.pytest_cache": true,
-        "**/dist": true
-    },
-    "files.autoSave": "onWindowChange"
+  "python.defaultInterpreterPath": "${workspaceFolder}/venv/bin/python",
+  "python.linting.enabled": true,
+  "python.linting.pylintEnabled": true,
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "ms-python.python",
+  "files.exclude": {
+    "**/__pycache__": true,
+    "**/*.pyc": true,
+    "**/node_modules": true
+  },
+  "search.exclude": {
+    "**/__pycache__": true,
+    "**/node_modules": true,
+    "**/.git": true
+  }
 }

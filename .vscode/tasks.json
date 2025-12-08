@@ -1,0 +1,85 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Week 1: GitHub Integration",
+      "type": "shell",
+      "command": "python",
+      "args": ["WEEK_1_EXECUTION.py"],
+      "group": {
+        "kind": "build",
+        "isDefault": false
+      }
+    },
+    {
+      "label": "Week 2: Production Build",
+      "type": "shell",
+      "command": "python",
+      "args": ["WEEK_2_EXECUTION.py"],
+      "group": {
+        "kind": "build",
+        "isDefault": false
+      }
+    },
+    {
+      "label": "Week 3: Deployment",
+      "type": "shell",
+      "command": "python",
+      "args": ["WEEK_3_EXECUTION.py"],
+      "group": {
+        "kind": "build",
+        "isDefault": false
+      }
+    },
+    {
+      "label": "Week 4: Monetization",
+      "type": "shell",
+      "command": "python",
+      "args": ["WEEK_4_EXECUTION.py"],
+      "group": {
+        "kind": "build",
+        "isDefault": false
+      }
+    },
+    {
+      "label": "Run All Weeks",
+      "type": "shell",
+      "command": "python",
+      "args": ["RUN_NOW.py"],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      }
+    },
+    {
+      "label": "Verify Production",
+      "type": "shell",
+      "command": "python",
+      "args": ["VERIFY_PRODUCTION.py"],
+      "group": {
+        "kind": "test",
+        "isDefault": true
+      }
+    },
+    {
+      "label": "Start Production",
+      "type": "shell",
+      "command": "python",
+      "args": ["PRODUCTION_START.py"],
+      "group": {
+        "kind": "build",
+        "isDefault": false
+      }
+    },
+    {
+      "label": "Monitor Production",
+      "type": "shell",
+      "command": "python",
+      "args": ["PRODUCTION_MONITOR.py"],
+      "group": {
+        "kind": "test",
+        "isDefault": false
+      }
+    }
+  ]
+}

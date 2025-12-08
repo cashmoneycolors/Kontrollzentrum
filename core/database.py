@@ -1,35 +1,55 @@
-"""Database Integration - SQLite mit SQLAlchemy"""
-from sqlalchemy import create_engine, Column, Integer, String, DateTime, Float
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import sessionmaker
-import datetime
+"""
+Datenbank - SQLite Integration
+"""
+import sqlite3
+import os
+from datetime import datetime
 
-DATABASE_URL = "sqlite:///kontrollzentrum.db"
-engine = create_engine(DATABASE_URL, connect_args={"check_same_thread": False})
-SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
-Base = declarative_base()
+class Database:
+    def __init__(self, db_path="kontrollzentrum.db"):
+        self.db_path = db_path
+        self.init_db()
+    
+    def init_db(self):
+        """Initialisiert Datenbank"""
+        conn = sqlite3.connect(self.db_path)
+        c = conn.cursor()
+        
+        c.execute("""CREATE TABLE IF NOT EXISTS logs (
+            id INTEGER PRIMARY KEY,
+            timestamp TEXT,
+            module TEXT,
+            action TEXT,
+            status TEXT,
+            message TEXT
+        )""")
+        
+        c.execute("""CREATE TABLE IF NOT EXISTS users (
+            id INTEGER PRIMARY KEY,
+            username TEXT UNIQUE,
+            created_at TEXT
+        )""")
+        
+        conn.commit()
+        conn.close()
+    
+    def log(self, module, action, status, message=""):
+        """Schreibt Log-Eintrag"""
+        conn = sqlite3.connect(self.db_path)
+        c = conn.cursor()
+        c.execute("""INSERT INTO logs (timestamp, module, action, status, message)
+                     VALUES (?, ?, ?, ?, ?)""",
+                  (datetime.now().isoformat(), module, action, status, message))
+        conn.commit()
+        conn.close()
+    
+    def get_logs(self, limit=100):
+        """Liest Logs"""
+        conn = sqlite3.connect(self.db_path)
+        c = conn.cursor()
+        c.execute("SELECT * FROM logs ORDER BY timestamp DESC LIMIT ?", (limit,))
+        rows = c.fetchall()
+        conn.close()
+        return rows
 
-class User(Base):
-    __tablename__ = "users"
-    id = Column(Integer, primary_key=True)
-    username = Column(String, unique=True)
-    email = Column(String, unique=True)
-    password_hash = Column(String)
-    created_at = Column(DateTime, default=datetime.datetime.utcnow)
-
-class ModuleLog(Base):
-    __tablename__ = "module_logs"
-    id = Column(Integer, primary_key=True)
-    module_name = Column(String)
-    status = Column(String)
-    timestamp = Column(DateTime, default=datetime.datetime.utcnow)
-    execution_time = Column(Float)
-
-Base.metadata.create_all(bind=engine)
-
-def get_db():
-    db = SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
+db = Database()

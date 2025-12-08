@@ -10,17 +10,22 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
-    - name: Set up Python
-      uses: actions/setup-python@v2
+    - uses: actions/checkout@v3
+    - uses: actions/setup-python@v4
       with:
-        python-version: 3.9
-    - name: Install dependencies
-      run: |
-        pip install -r requirements.txt
-    - name: Run tests
-      run: |
-        python -m unittest discover tests
-    - name: Build Docker image
-      run: |
-        docker build -t kontrollzentrum:latest .
+        python-version: '3.11'
+    - run: pip install -r requirements.txt
+    - run: pytest tests/ -v --cov
+    - run: pylint modules/ core/
+
+  build:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - uses: docker/setup-buildx-action@v2
+    - uses: docker/build-push-action@v4
+      with:
+        context: .
+        push: false
+        tags: kontrollzentrum:latest

@@ -1,0 +1,10 @@
+{
+  "Timestamp": "2025-12-08T21:32:21.9793762+01:00",
+  "RootFolder": "C:\\Users\\Laptop\\Kontrollzentrum-1\\AzureMigration-ULTRA-QUANTUM-20251208-212957",
+  "TotalFiles": 0,
+  "FixedWithAI": 0,
+  "DeadLetterCount": 0,
+  "RetryLog": "Reports/Global-Retry-Log.csv",
+  "ParallelJobsUsed": 12,
+  "MaxRetriesConfigured": 7
+}

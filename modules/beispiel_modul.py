@@ -1,19 +1,25 @@
-"""Beispiel-Modul für Plug-and-Play-Architektur"""
-from core.key_check import require_keys
-import os
-from dotenv import load_dotenv
+"""
+Beispiel-Modul - Template für neue Module
+Funktioniert auch ohne API-Keys (Demo-Modus)
+"""
+from core.key_check import has_key
+import datetime
 
-load_dotenv()
-
-@require_keys
-def run(*args):
-    """Modul-Hauptlogik - läuft NUR mit vollständigen Keys"""
-    return {"status": "success", "message": "Beispielmodul läuft produktiv!"}
+def run():
+    """Hauptfunktion - wird vom Kontrollzentrum aufgerufen"""
+    mode = "Produktiv" if has_key("OPENAI_API_KEY") else "Demo"
+    
+    return {
+        "status": "ok",
+        "message": f"Beispiel-Modul erfolgreich ausgeführt ({mode}-Modus)",
+        "timestamp": datetime.datetime.now().isoformat(),
+        "mode": mode
+    }
 
 def install():
-    """Optional: Installations-Routine"""
-    print("Beispielmodul installiert.")
+    """Optional: Installation/Setup"""
+    print("✅ Beispiel-Modul installiert")
 
 def describe():
-    """Optional: Modul-Beschreibung"""
-    return "Beispielmodul - Testmodul für Plug-and-Play-Architektur"
+    """Beschreibung des Moduls"""
+    return "Generisches Test-Modul mit run()-Funktion (Demo + Produktiv)"

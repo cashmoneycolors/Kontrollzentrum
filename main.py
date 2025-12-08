@@ -13,14 +13,11 @@ Multi-Entry-Point System:
 import sys
 import os
 import importlib
-import argparse
 import datetime
-import asyncio
 from core.database import db
 from core.health_monitor import monitor
 from core.rate_limiter import rate_limiter, cache
 
-# Setup path
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 modules_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "modules"))
 if modules_path not in sys.path:
@@ -32,15 +29,10 @@ def discover_modules():
     modules = []
     if not os.path.exists(modules_path):
         return modules
-
     for fname in os.listdir(modules_path):
-        if (
-            fname.endswith(".py")
-            and not fname.startswith("__")
-            and fname not in ["main.py", "api_server.py"]
-        ):
+        if fname.endswith(".py") and not fname.startswith("__") and fname not in ["main.py", "api_server.py"]:
             modules.append(fname[:-3])
-    return sorted(modules)  # Sortiert für konsistente Reihenfolge
+    return sorted(modules)
 
 
 def get_capabilities(mod):
@@ -55,16 +47,11 @@ def get_capabilities(mod):
 def run_streamlit_mode():
     """Startet Streamlit Zenith Controller"""
     import streamlit as st
-
     try:
         from core.zenith_controller import ZenithController
-    except ModuleNotFoundError:
-        st.error("Fehler: 'core/zenith_controller.py' nicht gefunden!")
+    except (ModuleNotFoundError, ImportError) as e:
+        st.error(f"Fehler: {e}")
         st.stop()
-    except ImportError as e:
-        st.error(f"Import-Fehler: {e}")
-        st.stop()
-
     st.set_page_config(page_title="Zenith Kontrollzentrum", layout="wide")
     controller = ZenithController()
     controller.run()
@@ -79,20 +66,18 @@ def run_team_mode():
     module_names = discover_modules()
     modules = []
 
-    # Module laden
     for module_name in module_names:
         try:
             mod = importlib.import_module(module_name)
             caps = get_capabilities(mod)
             modules.append({"name": module_name, "module": mod, "capabilities": caps})
         except Exception as e:
-            print(f"[WARN] Modul {module_name} konnte nicht geladen werden: {e}")
+            print(f"[WARN] Modul {module_name}: {e}")
 
     if not modules:
-        print("Keine Module gefunden!")
+        print("[ERROR] Keine Module gefunden!")
         return
 
-    # 1. Installation
     log_lines.append("[INSTALLATION]")
     install_results = []
     for m in modules:
@@ -111,11 +96,8 @@ def run_team_mode():
 
     ok_count = sum(1 for _, status in install_results if status == "OK")
     fail_count = len(install_results) - ok_count
-    log_lines.append(
-        f"[ZUSAMMENFASSUNG] Erfolgreich: {ok_count}  Fehlgeschlagen: {fail_count}\n"
-    )
+    log_lines.append(f"[ZUSAMMENFASSUNG] Erfolgreich: {ok_count}  Fehlgeschlagen: {fail_count}\n")
 
-    # 2. Ausführung
     log_lines.append("[RUN]")
     run_results = []
     for m in modules:
@@ -139,11 +121,8 @@ def run_team_mode():
     ok_count = sum(1 for _, status in run_results if status == "OK")
     demo_count = sum(1 for _, status in run_results if status == "DEMO")
     fail_count = len(run_results) - ok_count - demo_count
-    log_lines.append(
-        f"[ZUSAMMENFASSUNG] OK: {ok_count}  Demo: {demo_count}  Fehler: {fail_count}\n"
-    )
+    log_lines.append(f"[ZUSAMMENFASSUNG] OK: {ok_count}  Demo: {demo_count}  Fehler: {fail_count}\n")
 
-    # Log schreiben
     with open("team_log.txt", "a", encoding="utf-8") as f:
         for line in log_lines:
             f.write(line + "\n")
@@ -153,22 +132,23 @@ def run_team_mode():
 
 def run_api_mode():
     """Start API Gateway"""
-    print("🚀 Starting API Gateway on http://0.0.0.0:8000")
+    print("[API] Starting API Gateway on http://0.0.0.0:8000")
     from core.api_gateway import app
     import uvicorn
     uvicorn.run(app, host="0.0.0.0", port=8000)
 
+
 def run_health_check():
     """Run health check on all modules"""
-    print("🏥 Running health checks...\n")
+    print("[HEALTH] Running health checks...\n")
     modules = discover_modules()
     
     for module_name in modules:
         health = monitor.check_module_health(module_name)
-        status_icon = "✅" if health["status"] == "healthy" else "⚠️" if health["status"] == "slow" else "💀"
+        status_icon = "[OK]" if health["status"] == "healthy" else "[SLOW]" if health["status"] == "slow" else "[DEAD]"
         print(f"{status_icon} {module_name}: {health['status']} ({health.get('response_time', 0):.2f}s)")
     
-    print("\n📊 System Health:")
+    print("\n[SYSTEM] System Health:")
     sys_health = monitor.check_system_health()
     print(f"  CPU: {sys_health['cpu']:.1f}%")
     print(f"  Memory: {sys_health['memory']:.1f}%")
@@ -176,13 +156,14 @@ def run_health_check():
     print(f"  Status: {sys_health['status']}")
     
     if monitor.alerts:
-        print(f"\n⚠️  Alerts ({len(monitor.alerts)}):")
+        print(f"\n[ALERTS] Alerts ({len(monitor.alerts)}):")
         for alert in monitor.alerts[-5:]:
             print(f"  - {alert}")
 
+
 def run_cli_mode():
     """CLI-Modus mit interaktiver Modul-Auswahl"""
-    print("=== Autonomes Kontrollzentrum ===")
+    print("[CLI] Autonomes Kontrollzentrum")
 
     module_names = discover_modules()
     mods = []
@@ -195,17 +176,15 @@ def run_cli_mode():
             print(f"[WARN] Modul {module_name}: {e}")
 
     if not mods:
-        print("Keine Module gefunden!")
+        print("[ERROR] Keine Module gefunden!")
         return
 
     args = sys.argv[1:]
 
-    # Team-Modus Check
     if args and args[0].lower() == "team":
         run_team_mode()
         return
 
-    # Alle Module mit Aktion
     if args and args[0] == "alle" and len(args) > 1:
         action = args[1]
         ok, fail = [], []
@@ -221,12 +200,11 @@ def run_cli_mode():
         print(f"\n[OK] Erfolgreich: {len(ok)}  [FEHLER] Fehler: {len(fail)}")
         return
 
-    # Interaktives CLI
-    print("\nGefundene Module:")
+    print("\n[MODULES] Gefundene Module:")
     for i, (name, mod, caps) in enumerate(mods):
         print(f"  {i+1}. {name}: {', '.join(caps) if caps else 'keine Capabilities'}")
 
-    print("\nVerwendung:")
+    print("\n[USAGE] Verwendung:")
     print("  [nummer] [aktion] [parameter...]")
     print("  Beispiel: 2 to_svg output.svg")
     print("  Oder: alle install")
@@ -243,12 +221,12 @@ def run_cli_mode():
 
     parts = inp.split()
     if not parts or not parts[0].isdigit():
-        print("[FEHLER] Ungültige Eingabe")
+        print("[ERROR] Ungültige Eingabe")
         return
 
     idx = int(parts[0]) - 1
     if idx < 0 or idx >= len(mods):
-        print("[FEHLER] Ungültige Modulnummer")
+        print("[ERROR] Ungültige Modulnummer")
         return
 
     action = parts[1] if len(parts) > 1 else "run"
@@ -256,7 +234,7 @@ def run_cli_mode():
 
     name, mod, caps = mods[idx]
     if action not in caps:
-        print(f"[FEHLER] {name} unterstützt '{action}' nicht")
+        print(f"[ERROR] {name} unterstützt '{action}' nicht")
         return
 
     print(f"[INFO] {name}.{action}({', '.join(params)})")
@@ -278,7 +256,6 @@ def main():
             run_team_mode()
             return
     
-    # Streamlit Detection
     try:
         import streamlit.web.cli as stcli
         if len(sys.argv) > 1 and "streamlit" in sys.argv[0].lower():
@@ -287,29 +264,6 @@ def main():
     except:
         pass
 
-    # Check for Streamlit run
-    if "streamlit" in " ".join(sys.argv):
-        run_streamlit_mode()
-    else:
-        run_cli_mode()
-
-
-if __name__ == "__main__":
-    main()       return
-        elif cmd == "team":
-            run_team_mode()
-            return
-    
-    # Streamlit Detection
-    try:
-        import streamlit.web.cli as stcli
-        if len(sys.argv) > 1 and "streamlit" in sys.argv[0].lower():
-            run_streamlit_mode()
-            return
-    except:
-        pass
-
-    # Check for Streamlit run
     if "streamlit" in " ".join(sys.argv):
         run_streamlit_mode()
     else:

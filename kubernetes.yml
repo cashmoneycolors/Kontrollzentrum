@@ -14,22 +14,21 @@ spec:
     spec:
       containers:
       - name: kontrollzentrum
-        image: kontrollzentrum:latest
+        image: kontrollzentrum:5.0
         ports:
         - containerPort: 8000
+        - containerPort: 8501
         env:
-        - name: SECRET_KEY
+        - name: OPENAI_API_KEY
           valueFrom:
             secretKeyRef:
-              name: kontrollzentrum-secret
-              key: secret-key
-        resources:
-          requests:
-            memory: "256Mi"
-            cpu: "250m"
-          limits:
-            memory: "512Mi"
-            cpu: "500m"
+              name: kontrollzentrum-secrets
+              key: openai-key
+        - name: STRIPE_API_KEY
+          valueFrom:
+            secretKeyRef:
+              name: kontrollzentrum-secrets
+              key: stripe-key
 ---
 apiVersion: v1
 kind: Service

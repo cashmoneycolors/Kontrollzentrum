@@ -1,49 +1,47 @@
 {
-    // Verwendet IntelliSense zum Ermitteln möglicher Attribute.
-    // Zeigen Sie auf vorhandene Attribute, um die zugehörigen Beschreibungen anzuzeigen.
-    // Weitere Informationen finden Sie unter https://go.microsoft.com/fwlink/?linkid=830387
-    "version": "0.2.0",
-    "configurations": [
-        
-        {
-            "name": "Electron: C++ (Windows)",
-            "type": "cppvsdbg",
-            "request": "launch",
-            "program": "${command:electron-build-tools.show.exec}",
-            "args": [
-                "${command:electron-build-tools.debug.showOpenDialog}"
-            ],
-            "stopAtEntry": false,
-            "cwd": "${command:electron-build-tools.show.root}\\src",
-            "environment": [
-                {
-                    "name": "ELECTRON_ENABLE_LOGGING",
-                    "value": "true"
-                },
-                {
-                    "name": "ELECTRON_ENABLE_STACK_DUMPING",
-                    "value": "true"
-                },
-                {
-                    "name": "ELECTRON_RUN_AS_NODE",
-                    "value": ""
-                }
-            ],
-            "externalConsole": false,
-            "sourceFileMap": {
-                "o:\\": "${command:electron-build-tools.show.root}\\src"
-            }
-        },
-        {
-            "name": "Attach to Electron: C++ (Windows)",
-            "type": "cppvsdbg",
-            "request": "attach",
-            "program": "${command:electron-build-tools.show.exec}",
-            "MIMode": "lldb",
-            "processId": "${command:pickProcess}",
-            "sourceFileMap": {
-                "o:\\": "${command:electron-build-tools.show.root}\\src"
-            }
-        }
-    ]
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Python: Main",
+      "type": "python",
+      "request": "launch",
+      "program": "${workspaceFolder}/main.py",
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "Python: Week 1",
+      "type": "python",
+      "request": "launch",
+      "program": "${workspaceFolder}/WEEK_1_EXECUTION.py",
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "Python: Week 2",
+      "type": "python",
+      "request": "launch",
+      "program": "${workspaceFolder}/WEEK_2_EXECUTION.py",
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "Python: Week 3",
+      "type": "python",
+      "request": "launch",
+      "program": "${workspaceFolder}/WEEK_3_EXECUTION.py",
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "Python: Week 4",
+      "type": "python",
+      "request": "launch",
+      "program": "${workspaceFolder}/WEEK_4_EXECUTION.py",
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "Python: Run All",
+      "type": "python",
+      "request": "launch",
+      "program": "${workspaceFolder}/RUN_NOW.py",
+      "console": "integratedTerminal"
+    }
+  ]
 }

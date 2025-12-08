@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("DropshippingApp")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+315e20502fb4039fec448c7ea4479fd0d2c72273")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+9f2ab3f5ce1604788a11e9af3afb35ee7c2989cb")]
 [assembly: System.Reflection.AssemblyProductAttribute("DropshippingApp")]
 [assembly: System.Reflection.AssemblyTitleAttribute("DropshippingApp")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
