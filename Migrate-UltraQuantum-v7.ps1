@@ -21,11 +21,11 @@ git push -u origin blackboxai/azure-mcp-setup
 
 # 2. DEPENDENCIES
 Write-Host "`n[2/5] Installing Dependencies..." -ForegroundColor Yellow
-pip install -r requirements.txt
+py -3.11 -m pip install -r requirements.txt
 
 # 3. TESTS
 Write-Host "`n[3/5] Running Tests..." -ForegroundColor Yellow
-python -m pytest tests/ -v
+py -3.11 -m pytest tests/ -v
 
 # 4. BUILD
 Write-Host "`n[4/5] Building Docker Image..." -ForegroundColor Yellow
@@ -40,31 +40,14 @@ if ($Deploy) {
 
 # START SYSTEM
 Write-Host "`n🎯 Starting System..." -ForegroundColor Cyan
-python main.py
+py -3.11 main.py
 
 Write-Host "`n✅ MIGRATION COMPLETE!" -ForegroundColor Green
-Write-Host "💰 Revenue Target: €3.25M Year 1" -ForegroundColor Magenta
+Write-Host "💰 Revenue Target: €3.25M Year 1" -ForegroundColor Magenta# 1. GitHub pushen
+git push -u origin blackboxai/azure-mcp-setup
 
-{
-    "name": "Kontrollzentrum v5.0",
-    "build": {
-        "context": "..",
-        "dockerfile": "Dockerfile"
-    },
-    "features": {
-        "ghcr.io/wxw-matt/devcontainer-features/script_runner:0": {}
-    },
-    "customizations": {
-        "vscode": {
-            "extensions": [
-                "ms-python.python",
-                "ms-python.vscode-pylance",
-                "amazonwebservices.amazon-q-vscode",
-                "GitHub.copilot",
-                "ms-azuretools.vscode-docker"
-            ]
-        }
-    },
-    "forwardPorts": [8000, 8501],
-    "postCreateCommand": "pip install -r requirements.txt && python main.py health"
-}
+# 2. Migration starten
+.\Migrate-UltraQuantum-v7.ps1 -Full -Deploy
+
+# 3. System starten
+python main.py
