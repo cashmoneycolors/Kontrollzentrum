@@ -1,31 +1,30 @@
-# PowerShell-Buildskript für das Kontrollzentrum
-# Dieses Skript erstellt eine ausführbare Datei aus mega_roboter_ki.py und verschiebt sie ins Zielverzeichnis
+# 🚀 BUILD ROBOTER_KI_APP.exe - PowerShell
 
-$ErrorActionPreference = 'Stop'
+Write-Host "========================================" -ForegroundColor Cyan
+Write-Host "🚀 BUILDING ROBOTER_KI_APP.exe" -ForegroundColor Green
+Write-Host "========================================" -ForegroundColor Cyan
+Write-Host ""
 
-# 1. Abhängigkeiten installieren
-Write-Host 'Installiere Python-Abhängigkeiten...'
-pip install -r requirements.txt
+# Step 1: Install PyInstaller
+Write-Host "[1/3] Installing PyInstaller..." -ForegroundColor Yellow
+pip install pyinstaller -q
 
-# 2. PyInstaller installieren
-Write-Host 'Installiere PyInstaller...'
-pip install pyinstaller
+# Step 2: Build EXE
+Write-Host "[2/3] Building EXE..." -ForegroundColor Yellow
+pyinstaller --onefile --windowed --name=ROBOTER_KI_APP --distpath=dist --buildpath=build main.py
 
-# 3. Exe bauen
-Write-Host 'Erzeuge .exe mit PyInstaller...'
-pyinstaller --onefile --name "🤖ROBOTER_KI_APP" modules/mega_ultra_roboter_ki.py
-
-# 4. Zielverzeichnis anlegen
-$ziel = "C:\Users\Laptop\Desktop\Projekte\MEGA ULTRA ROBOTER KI"
-if (!(Test-Path $ziel)) {
-    New-Item -ItemType Directory -Path $ziel
+# Step 3: Copy to Desktop
+Write-Host "[3/3] Copying to Desktop..." -ForegroundColor Yellow
+$desktopPath = "$env:USERPROFILE\Desktop\Projekte"
+if (-not (Test-Path $desktopPath)) {
+    New-Item -ItemType Directory -Path $desktopPath -Force | Out-Null
 }
+Copy-Item "dist\ROBOTER_KI_APP.exe" "$desktopPath\ROBOTER_KI_APP.exe" -Force
 
-# 5. Exe verschieben
-$quelle = "dist\🤖ROBOTER_KI_APP.exe"
-if (Test-Path $quelle) {
-    Move-Item $quelle $ziel -Force
-    Write-Host "Fertig! Die .exe liegt jetzt in: $ziel"
-} else {
-    Write-Host "Fehler: .exe wurde nicht gefunden!"
-}
+Write-Host ""
+Write-Host "========================================" -ForegroundColor Cyan
+Write-Host "✅ ROBOTER_KI_APP.exe ERSTELLT!" -ForegroundColor Green
+Write-Host "========================================" -ForegroundColor Cyan
+Write-Host ""
+Write-Host "📍 Pfad: $desktopPath\ROBOTER_KI_APP.exe" -ForegroundColor Green
+Write-Host ""
