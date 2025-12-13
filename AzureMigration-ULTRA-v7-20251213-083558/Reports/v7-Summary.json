@@ -1,0 +1,12 @@
+{
+  "Timestamp": "2025-12-13T08:36:01.0601478+01:00",
+  "SourceFiles": 28,
+  "UpgradedFiles": 0,
+  "AIFixes": 0,
+  "DeadLetters": 0,
+  "RootFolder": "C:\\Users\\Laptop\\Kontrollzentrum-1\\AzureMigration-ULTRA-v7-20251213-083558",
+  "Config": {
+    "Retries": 7,
+    "MaxJobs": 12
+  }
+}
