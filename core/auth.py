@@ -30,3 +30,6 @@ def verify_token(token: str):
         return payload
     except jwt.InvalidTokenError:
         return None
+
+# Alias for backward compatibility
+generate_token = create_access_token
