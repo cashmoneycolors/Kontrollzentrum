@@ -13,5 +13,6 @@
     "**/__pycache__": true,
     "**/node_modules": true,
     "**/.git": true
-  }
+  },
+  "terminal.integrated.sendKeybindingsToShell": true
 }

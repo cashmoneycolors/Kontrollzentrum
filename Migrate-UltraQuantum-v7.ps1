@@ -43,11 +43,4 @@ Write-Host "`n🎯 Starting System..." -ForegroundColor Cyan
 py -3.11 main.py
 
 Write-Host "`n✅ MIGRATION COMPLETE!" -ForegroundColor Green
-Write-Host "💰 Revenue Target: €3.25M Year 1" -ForegroundColor Magenta# 1. GitHub pushen
-git push -u origin blackboxai/azure-mcp-setup
-
-# 2. Migration starten
-.\Migrate-UltraQuantum-v7.ps1 -Full -Deploy
-
-# 3. System starten
-python main.py
+Write-Host "💰 Revenue Target: €3.25M Year 1" -ForegroundColor Magenta
